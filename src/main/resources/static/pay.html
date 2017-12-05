@@ -1,0 +1,28 @@
+<!-- 静态注入, 唤起微信立即支付界面, 仅供测试使用, 生产环境使用Freemarker模版生成 -->
+<script>
+    function onBridgeReady(){
+        WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId":"xx",     //公众号名称，由商户传入
+                    "timeStamp":"1499569906",         //时间戳，自1970年以来的秒数
+                    "nonceStr":"xx", //随机串
+                    "package":"prepay_id=xx",
+                    "signType":"MD5",         //微信签名方式：
+                    "paySign":"xx" //微信签名
+                },
+                function(res){
+                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {}     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                }
+        );
+    }
+    if (typeof WeixinJSBridge == "undefined"){
+        if( document.addEventListener ){
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        }else if (document.attachEvent){
+            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+        }
+    }else{
+        onBridgeReady();
+    }
+</script>
